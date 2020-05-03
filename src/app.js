@@ -19,10 +19,16 @@ app.get("/repositories", (request, response) => {
 
 app.post("/repositories", (request, response) => {
   //Utilizando desestruturação para separar as variáveis.
-  const { title, url, techs, likes = 0 } = request.body;
+  const { title, url, techs } = request.body;
 
   //Definindo o formato solicitado de registro, com id criado pela biblioteca uuid()
-  const repository = { id: uuid(), title, url, techs, likes }
+  const repository = {
+    id: uuid(),
+    title,
+    url,
+    techs,
+    likes: 0
+  }
 
   repositories.push(repository)
 
@@ -40,7 +46,13 @@ app.put("/repositories/:id", (request, response) => {
     })
   }
 
-  const editedRepo = { id, title, url, techs };
+  const editedRepo = {
+    id,
+    title,
+    url,
+    techs,
+    likes: repositories[repoIndex].likes
+  };
   repositories[repoIndex] = editedRepo;
   return response.json(editedRepo)
 });
